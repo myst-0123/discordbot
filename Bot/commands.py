@@ -1,6 +1,6 @@
 import discord
 
-HELP_FILE = discord.File('data/help.txt')
+HELP_FILE = 'data/help.txt'
 
 mode = 0
 
@@ -11,8 +11,9 @@ async def command_output(client, command):
         await client.logout()
 
     if command.content[1:] == 'help':
-        await command.channel.send('こちらをご覧ください', file=HELP_FILE)
-
+        with open(HELP_FILE, 'r', encoding="utf-8") as f:
+            await command.channel.send(f.read())
+            
     if command.content[1:] == 'feedback':
         await command.channel.send('フィードバックの内容を入力してください')
         mode = 1
