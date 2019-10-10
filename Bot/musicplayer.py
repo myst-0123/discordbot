@@ -2,12 +2,15 @@ import discord
 
 class MusicPlayer:
     def __init__(self, voice_channel, text_channel):
+        self.LIST_FILE = discord.File('data/musiclist.txt')
         self.vol = 0.5
         self.voice_channel = voice_channel
         self.text_channel = text_channel
 
     async def music_player(self, message):
         self.message = message.content
+        if message.content[1:5] == 'list':
+            await self.show_list()
         if message.content[1:5] == 'play':
             await self.music_play()
         if message.content[1:6] == 'start':
@@ -18,7 +21,10 @@ class MusicPlayer:
             await self.music_stop()
         if message.content[1:7] == 'volume':
             await self.music_change_vol(float(message.content[8:]))
-    
+
+    async def show_list(self):
+        self.text_channel.send('曲のリストです', file=self.LIST_FILE)
+
     async def music_play(self):
         song_name = self.message[6:]
         try:
