@@ -1,10 +1,15 @@
-import configparser
+import json
 
 class Settings():
     def __init__(self):
-        config_file = configparser.ConfigParser()
-        config_file.read('../config.ini')
-        self.TOKEN = config_file.get('setting', 'token')
-        self.CHANNEL_ID = int(config_file.get('setting', 'channel_id'))
-        self.VOICE_CHANNEL_ID = int(config_file.get('setting', 'voice_channel_id'))
-        self.MY_CHANNEL_ID = int(config_file.get('setting', 'my_channel_id'))
+        self.admin_list = []
+        with open('../config.json', 'r') as f:
+            config = json.load(f)
+            self.TOKEN = config['settings']['token']
+            self.CHANNEL_ID = config['settings']['channel_id']
+            self.VOICE_CHANNEL_ID = config['settings']['voice_channel_id']
+            self.MY_CHANNEL_ID = config['settings']['my_channel_id']
+            for x in config['administrator']:
+                self.admin_list.append(x['id'])
+            print(self.admin_list)
+            print(type(self.admin_list))

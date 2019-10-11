@@ -35,7 +35,7 @@ async def on_message(message):
 
     # コマンド呼び出し
     if message.content[:1] == '.':
-        await cmd.command_output(client, message) 
+        await cmd.command_output(client, message, setting.admin_list) 
 
     # ミュージックプレイヤーの起動
     if message.content[:1] == '!':
