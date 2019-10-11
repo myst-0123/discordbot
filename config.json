@@ -1,13 +1,13 @@
 {
     "settings" : {
         "token" : "bot_token",
-        "channel_id" : testchannel_id,
-        "voice_channel_id" : voicechannel_id,
-        "my_channel_id" : mychannel_id
+        "channel_id" : "testchannel_id(int)",
+        "voice_channel_id" : "voicechannel_id(int)",
+        "my_channel_id" : "mychannel_id(int)"
     },
     "administrator" : [
         {
-            "id" : admin_user_id
+            "id" : "admin_user_id(int)"
         }
     ]
 }

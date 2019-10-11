@@ -11,5 +11,3 @@ class Settings():
             self.MY_CHANNEL_ID = config['settings']['my_channel_id']
             for x in config['administrator']:
                 self.admin_list.append(x['id'])
-            print(self.admin_list)
-            print(type(self.admin_list))
