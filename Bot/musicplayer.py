@@ -8,13 +8,12 @@ class MusicPlayer:
         self.text_channel = text_channel
 
     async def music_player(self, message):
-        self.message = message.content
         if message.content[1:5] == 'list':
             await self.show_list()
         if message.content[1:5] == 'join':
             await self.join_voice_channel()
         if message.content[1:5] == 'play':
-            await self.music_play()
+            await self.music_play(message.content[6:])
         if message.content[1:6] == 'start':
             await self.music_start()
         if message.content[1:6] == 'pause':
@@ -30,8 +29,7 @@ class MusicPlayer:
     async def join_voice_channel(self):
         self.vc = await self.voice_channel.connect()
 
-    async def music_play(self):
-        song_name = self.message[6:]
+    async def music_play(self, song_name):
         try:
             if self.vc.is_playing():
                 self.vc.source = discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3')
