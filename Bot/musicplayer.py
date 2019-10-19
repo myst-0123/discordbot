@@ -1,4 +1,18 @@
 import discord
+import youtube_dl
+
+ydl_opts = {
+    'format': 'bestaudio/best',
+    'outtmpl':  "sample_music" + '.%(ext)s',
+    'postprocessors': [
+        {'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+         'preferredquality': '192'},
+        {'key': 'FFmpegMetadata'},
+    ],
+}
+
+ydl = youtube_dl.YoutubeDL(ydl_opts)
 
 class MusicPlayer:
     def __init__(self, voice_channel, text_channel, volume):
@@ -31,14 +45,19 @@ class MusicPlayer:
 
     async def music_play(self, song_name):
         try:
-            if self.vc.is_playing():
-                self.vc.source = discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3')
-                self.vc.source = discord.PCMVolumeTransformer(self.vc.source)
-                self.vc.source.volume = self.vol
+            if song_name[0:4] == 'http':
+                if self.vc.is_playing():
+                    self.vc.source = discord.FFmpegPCMAudio(ydl.add_extra_info(song_name, download=False))
+                else:
+                    self.vc.play(discord.FFmpegPCMAudio(ydl.add_extra_info(song_name, download=False)), after=lambda e: print('done', e))
             else:
-                self.vc.play(discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3'), after=lambda e: print('done', e))
-                self.vc.source = discord.PCMVolumeTransformer(self.vc.source)
-                self.vc.source.volume = self.vol
+                if self.vc.is_playing():
+                    self.vc.source = discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3')
+                else:
+                    self.vc.play(discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3'), after=lambda e: print('done', e))
+
+            self.vc.source = discord.PCMVolumeTransformer(self.vc.source)
+            self.vc.source.volume = self.vol
         except:
             await self.text_channel.send('ボイスチャットに接続されていません!joinで接続します')
 
