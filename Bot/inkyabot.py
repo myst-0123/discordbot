@@ -17,7 +17,7 @@ async def on_ready():
     channel = client.get_channel(setting.CHANNEL_ID)
     voice_channel = client.get_channel(setting.VOICE_CHANNEL_ID)
     my_channel = client.get_channel(setting.MY_CHANNEL_ID)
-    music = mp.MusicPlayer(voice_channel, channel)
+    music = mp.MusicPlayer(voice_channel, channel, setting.DEFAULT_VOLUME)
     await channel.send('陰キャが帰ってきました\n陰キャBotについて知りたいときは.helpと入力してください')
 
 @client.event
