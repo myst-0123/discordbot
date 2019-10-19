@@ -1,3 +1,4 @@
+import os
 import discord
 import youtube_dl
 
@@ -46,16 +47,18 @@ class MusicPlayer:
     async def music_play(self, song_name):
         try:
             if song_name[0:4] == 'http':
+                ydl.download([song_name])
                 if self.vc.is_playing():
-                    self.vc.source = discord.FFmpegPCMAudio(ydl.add_extra_info(song_name, download=False))
+                    self.vc.stop()
+                    self.vc.play(discord.FFmpegPCMAudio('./sample_music.mp3'), after=lambda e: print('done', e))
                 else:
-                    self.vc.play(discord.FFmpegPCMAudio(ydl.add_extra_info(song_name, download=False)), after=lambda e: print('done', e))
+                    self.vc.play(discord.FFmpegPCMAudio('./sample_music.mp3'), after=lambda e: print('done', e)) 
             else:
                 if self.vc.is_playing():
-                    self.vc.source = discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3')
+                    self.vc.stop()
+                    self.vc.play(discord.FFmpegPCMAudio(f'./data/musics/{song_name}.mp3'), after=lambda e: print('done', e))
                 else:
-                    self.vc.play(discord.FFmpegPCMAudio(f'data/musics/{song_name}.mp3'), after=lambda e: print('done', e))
-
+                    self.vc.play(discord.FFmpegPCMAudio(f'./data/musics/{song_name}.mp3'), after=lambda e: print('done', e))
             self.vc.source = discord.PCMVolumeTransformer(self.vc.source)
             self.vc.source.volume = self.vol
         except:
