@@ -9,5 +9,6 @@ class Settings():
             self.CHANNEL_ID = config['settings']['channel_id']
             self.VOICE_CHANNEL_ID = config['settings']['voice_channel_id']
             self.MY_CHANNEL_ID = config['settings']['my_channel_id']
+            self.DEFAULT_VOLUME = config['settings']['default_volume']
             for x in config['administrator']:
                 self.admin_list.append(x['id'])
